@@ -1,30 +1,69 @@
-class ButtonGame:
-    def __init__(self):
-        self.points = 0
-        self.level = 1
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TappyCoin</title>
+    <style>
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Button Game</h1>
+        <p>Points: <span id="points">0</span></p>
+        <p>Level: <span id="level">1</span></p>
+        <button class="button" onclick="clickButton()">Click Me</button>
+    </div>
+    <script>
+        var points = localStorage.getItem("points") ? parseInt(localStorage.getItem("points")) : 0;
+        var level = localStorage.getItem("level") ? parseInt(localStorage.getItem("level")) : 1;
 
-    def click_button(self):
-        self.points += 1
-        print("Point added! Current points:", self.points)
-        if self.points >= self.level * 1000:
-            self.level_up()
+        updateDisplay();
 
-    def level_up(self):
-        self.level += 1
-        print("Congratulations! You reached level", self.level)
+        function clickButton() {
+            points++;
+            updateDisplay();
+            localStorage.setItem("points", points);
+            if (points >= level * 1000) {
+                levelUp();
+            }
+        }
 
-def main():
-    game = ButtonGame()
-    while True:
-        print("Press 'c' to click the button or 'q' to quit.")
-        choice = input().lower()
-        if choice == 'c':
-            game.click_button()
-        elif choice == 'q':
-            print("Game over. Final points:", game.points)
-            break
-        else:
-            print("Invalid choice. Please try again.")
+        function levelUp() {
+            level++;
+            updateDisplay();
+            localStorage.setItem("level", level);
+            alert("Congratulations! You reached level " + level);
+        }
 
-if __name__ == "__main__":
-    main()
+        function updateDisplay() {
+            document.getElementById("points").innerText = points;
+            document.getElementById("level").innerText = level;
+        }
+
+        function main() {
+            while (true) {
+                var choice = prompt("Press 'c' to click the button or 'q' to quit.").toLowerCase();
+                if (choice === 'c') {
+                    clickButton();
+                } else if (choice === 'q') {
+                    alert("Game over. Final points: " + points);
+                    break;
+                } else {
+                    alert("Invalid choice. Please try again.");
+                }
+            }
+        }
+
+        main(); // Call main function when the page loads
+    </script>
+</body>
+</html>
